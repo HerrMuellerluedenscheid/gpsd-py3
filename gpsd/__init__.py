@@ -269,7 +269,7 @@ def connect(host="127.0.0.1", port=2947):
         _parse_state_packet(parsed)
 
 
-def get_current():
+def get_current_json():
     """ Poll gpsd for a new position
     :return: GpsResponse
     """
@@ -282,6 +282,16 @@ def get_current():
     if response['class'] != 'POLL':
         raise Exception(
             "Unexpected message received from gps: {}".format(response['class']))
+
+    return response
+
+
+def get_current():
+    """ Poll gpsd for a new position
+    :return: GpsResponse
+    """
+    response = get_current_json()
+
     return GpsResponse.from_json(response)
 
 
